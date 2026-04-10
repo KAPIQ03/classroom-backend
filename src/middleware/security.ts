@@ -64,14 +64,13 @@ const securityMiddleware = async (
 		}
 
 		if (decision.isDenied() && decision.reason.isRateLimit()) {
-			return res.status(403).json({
-				error: 'To many request',
+			return res.status(429).json({
+				error: 'Too many requests',
 				message: message,
 			});
 		}
 
 		next();
-
 	} catch (e) {
 		console.error('Arcjet middleawre error: ', e);
 		res.status(500).json({
