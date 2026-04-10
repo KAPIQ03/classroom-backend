@@ -1,5 +1,7 @@
 import express from 'express';
 import cors from 'cors';
+import { toNodeHandler } from "better-auth/node";
+import { auth } from "./lib/auth";
 import subjectRouter from './routes/subjects';
 import securityMiddleware from './middleware/security';
 
@@ -19,7 +21,10 @@ app.use(
 	}),
 );
 
+app.all('/api/auth/*splat', toNodeHandler(auth));
+
 app.use(express.json());
+
 app.use(securityMiddleware);
 
 app.use('/api/subjects', subjectRouter);
